@@ -1,4 +1,5 @@
 # WANIX
+
 [![Discord](https://img.shields.io/discord/415940907729420288?label=Discord)](https://discord.gg/nQbgRjEBU4) ![GitHub Sponsors](https://img.shields.io/github/sponsors/progrium?label=Sponsors)
 
 Experimental, web-native, Unix-like operating and development environment
@@ -7,6 +8,7 @@ Experimental, web-native, Unix-like operating and development environment
 * [🎬 Mozilla Rise 25 Demo](https://www.youtube.com/watch?v=KJcd9IckJj8)
 
 ## Features
+
 *Bootstrapping a new computing environment because we can!*
 
 * Run and create command line, TUI, and web apps in the environment itself
@@ -34,7 +36,8 @@ brew install wanix
 ```
 
 ## Usage
-```
+
+```man
 wanix [command]
 
 Available Commands:
@@ -64,7 +67,7 @@ This will write out the 3 files necessary to manually set up a page to load Wani
 
 ### wanix deploy
 
-This will set up a static site on a domain you provide using GitHub Pages. It will create a repository and set everything up for you. You can optionally have it set up authentication with the `--enable-auth` flag. This will configure [Auth0](https://auth0.com/) for you to be able to login with GitHub. When logged in, Wanix will mount the GitHub repository for the site itself at `/repo`, which you can use to modify the site from itself using Wanix. 
+This will set up a static site on a domain you provide using GitHub Pages. It will create a repository and set everything up for you. You can optionally have it set up authentication with the `--enable-auth` flag. This will configure [Auth0](https://auth0.com/) for you to be able to login with GitHub. When logged in, Wanix will mount the GitHub repository for the site itself at `/repo`, which you can use to modify the site from itself using Wanix.
 
 ## Using the Wanix environment
 
@@ -76,18 +79,18 @@ A number of common Unix command are available in the shell, which you can see by
 
 ### Work with the filesystem
 
-Use common Unix commands (`cd`, `ls`, `pwd`, ...) to navigate around the filesystem. The root filesystem is [indexedfs](internal/indexedfs), which stores files in IndexedDB. However, by implementing the [filesystem API](https://github.com/tractordev/toolkit-go/tree/main/engine/fs) you can create new filesystems to mount. For example, `/sys/dev` is mounted when run with the dev server using [httpfs](internal/httpfs) to expose the project repository from the host. 
+Use common Unix commands (`cd`, `ls`, `pwd`, ...) to navigate around the filesystem. The root filesystem is [indexedfs](internal/indexedfs), which stores files in IndexedDB. However, by implementing the [filesystem API](https://github.com/tractordev/toolkit-go/tree/main/engine/fs) you can create new filesystems to mount. For example, `/sys/dev` is mounted when run with the dev server using [httpfs](internal/httpfs) to expose the project repository from the host.
 
 The Wanix filesystem layout is different than Unix/Linux, so here are some relevant paths used by Wanix:
 
- * `/app` - For user applications.
- * `/cmd` - For user commands.
- * `/sys` - For Wanix system paths:
-   * `/sys/app` - For system applications.
-   * `/sys/cmd` - For system commands.
-   * `/sys/bin` - Cache for wasm binaries.
-   * `/sys/tmp` - For temporary files, held in-memory.
-   * `/sys/dev` - Read-only mount of project repo from host dev server.
+* `/app` - For user applications.
+* `/cmd` - For user commands.
+* `/sys` - For Wanix system paths:
+  * `/sys/app` - For system applications.
+  * `/sys/cmd` - For system commands.
+  * `/sys/bin` - Cache for wasm binaries.
+  * `/sys/tmp` - For temporary files, held in-memory.
+  * `/sys/dev` - Read-only mount of project repo from host dev server.
 
 ### Install Hugo
 
@@ -148,7 +151,7 @@ Use `ctrl-s` then `ctrl-q` to save and quit. Now if you run `gohello`, the progr
 
 Wanix applications are simply web applications under `/app`. If you create a directory like `/app/webapp` with an `index.html`, you can then open the application with `open webapp`.
 
-This will load `/app/webapp/index.html` into a full page iframe. You can get back to and toggle the console in visor mode with Control + the `~` key. Changes made to any file in `/app/webapp` will cause the frame to reload. 
+This will load `/app/webapp/index.html` into a full page iframe. You can get back to and toggle the console in visor mode with Control + the `~` key. Changes made to any file in `/app/webapp` will cause the frame to reload.
 
 Any TypeScript source files ending in `.ts` will be converted to JavaScript when loaded in this frame. The same for any files using JSX ending in `.jsx` or `.tsx`.
 
