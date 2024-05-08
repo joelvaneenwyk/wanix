@@ -6,26 +6,34 @@ set -eo pipefail
 
 required_tools=("curl" "grep" "awk" "unzip")
 for tool in "${required_tools[@]}"; do
-  if ! command -v $tool &>/dev/null; then
-    echo "Error: $tool is required but not installed. Please install it first."
+  if ! command -v "$tool" &>/dev/null; then
+    echo "Error: '$tool' is required but not installed. Please install it first."
     exit 1
   fi
 done
 
 main() {
-  local username="tractordev"
-  local repo="wanix"
-  local binpath="${TARGET:-/usr/local/bin}"
+  TARGET="${TARGET:-${1:-}}"
 
-  # Check if write permission is available
-  if [[ ! -w "$binpath" ]]; then
-    echo "Error: No write permission for $binpath. Try running with sudo or choose a different TARGET."
-    exit 1
+  if [[ -z "$TARGET" ]]; then
+    if [[ -w "/usr/local/bin" ]]; then
+      TARGET="/usr/local/bin"
+    else
+      TARGET="./bin"
+    fi
   fi
 
+  local username="tractordev"
+  local repo="wanix"
+  local binpath="${TARGET}"
+
   local repoURL="https://github.com/${username}/${repo}"
-  local releaseURL="$(curl -sI ${repoURL}/releases/latest | grep 'location:' | awk '{print $2}')"
-  local version="$(basename $releaseURL | cut -c 2- | tr -d '\r')"
+
+  local releaseURL
+  releaseURL="$(curl -sI ${repoURL}/releases/latest | grep 'location:' | awk '{print $2}')"
+
+  local version
+  version="$(basename "$releaseURL" | cut -c 2- | tr -d '\r')"
 
   local os=""
   local arch=""
@@ -57,10 +65,21 @@ main() {
 
   local filename="${repo}_${version}_${os}_${arch}.zip"
   curl -sSLO "${repoURL}/releases/download/v${version}/${filename}"
-  unzip $filename wanix -d $binpath
+
+  local errorCode=0
+
+  # Check if write permission is available
+  if ! mkdir -p "$binpath" || [[ ! -w "$binpath" ]]; then
+    echo "Error: No write permission for $binpath. Try running with sudo or choose a different TARGET."
+    errorCode=1
+  else
+    unzip -fo "$filename" wanix -d "$binpath"
+    echo "Executable wanix ${version} installed to ${binpath}"
+  fi
+
   rm "./$filename"
 
-  echo "Executable wanix ${version} installed to ${binpath}"
+  return $errorCode
 }
 
 main "$@"

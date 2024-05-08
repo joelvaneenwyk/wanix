@@ -11,3 +11,5 @@ external/jazz/node_modules
 /wanix-bootloader.js
 /wanix-initfs.gz
 /wanix-kernel.gz
+/wanix_*.zip
+/wanix
