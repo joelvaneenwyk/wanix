@@ -1,6 +1,6 @@
 module tractor.dev/wanix/build-pkgs/imports
 
-go 1.21.1
+go 1.21.9
 
 require (
 	github.com/Parzival-3141/go-posix v0.0.0-20240117234226-973522973253

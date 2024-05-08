@@ -13,3 +13,4 @@ external/jazz/node_modules
 /wanix-kernel.gz
 /wanix_*.zip
 /wanix
+/vendor

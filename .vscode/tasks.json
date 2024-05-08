@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "go",
+			"label": "go: build workspace",
+			"command": "build",
+			"args": [
+				"./..."
+			],
+			"problemMatcher": [
+				"$go"
+			],
+			"group": "build",
+			"detail": "cd /home/jovaneen/projects/wanix; go build ./..."
+		},
+		{
+			"type": "go",
+			"label": "go: build package",
+			"command": "build",
+			"args": [
+				"${fileDirname}"
+			],
+			"problemMatcher": [
+				"$go"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "go build"
+		}
+	]
+}
